@@ -1,8 +1,11 @@
 import React from 'react'
+import MainPage from './components/MainPage'
 
 const App: React.FC = () => {
   return (
-    <div>Appa</div>
+    <div>
+      <MainPage />
+    </div>
   )
 }
 
