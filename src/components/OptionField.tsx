@@ -7,11 +7,15 @@ import { useAppContext } from '../context/TodoContext'
 import { ObjectInterface } from '../utilities/UtilityFunctions'
 
 const OptionField: React.FC = () => {
-    const { setData, data } = useAppContext()
+    const { setData, data, setSortBy } = useAppContext()
     const purgeLocalStorage = (): void => {
         localStorage.storageTodo = '[]'
         console.log('Purged');
         setData(JSON.parse(localStorage.storageTodo))
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSortBy(e.target.value)
     }
 
     const todoItems: number = data.filter((task: ObjectInterface) => task.stats === 'todo').length
@@ -41,13 +45,14 @@ const OptionField: React.FC = () => {
                     </div>
                     <div className='w-1/2 flex flex-row items-center gap-1'>
                         <p className='font-medium'>Sort by</p>
-                        <select name="sort" id="sort" className='border'>
-                            <option value="">First letter (asc)</option>
-                            <option value="">First letter (desc)</option>
-                            <option value="">Days (asc)</option>
-                            <option value="">Days (desc)</option>
-                            <option value="">Date added (asc)</option>
-                            <option value="">Date added (desc)</option>
+                        <select onChange={handleChange} name="sort" id="sort" className='border'>
+                            <option value="NaN" disabled>Default</option>
+                            <option value="firstasc">First letter (asc)</option>
+                            <option value="firstdsc">First letter (desc)</option>
+                            <option value="dayasc">Days (asc)</option>
+                            <option value="daydsc">Days (desc)</option>
+                            <option value="addasc">Date added (asc)</option>
+                            <option value="adddsc">Date added (desc)</option>
                         </select>
                     </div>
                     
