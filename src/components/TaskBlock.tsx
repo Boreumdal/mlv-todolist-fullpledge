@@ -1,6 +1,6 @@
 import React from 'react'
 import { ObjectInterface } from '../utilities/UtilityFunctions';
-import { FaEdit, FaTrash, FaCheck, FaHourglassHalf } from 'react-icons/fa'
+import { FaArchive, FaTrash, FaCheck, FaHourglassHalf } from 'react-icons/fa'
 import { useAppContext } from '../context/TodoContext';
 
 const TaskBlock: React.FC<ObjectInterface> = ({id, task, due, stats}) => {
@@ -18,6 +18,13 @@ const TaskBlock: React.FC<ObjectInterface> = ({id, task, due, stats}) => {
         const loc = JSON.parse(localStorage.storageTodo)
         const aa = loc.findIndex((loc: any) => loc.id === id)
         loc[aa].stats = 'done'
+        localStorage.storageTodo = JSON.stringify(loc)
+        setData(loc)
+    }
+    const archiveTask = (id: number) => {
+        const loc = JSON.parse(localStorage.storageTodo)
+        const aa = loc.findIndex((loc: any) => loc.id === id)
+        loc[aa].stats = 'archive'
         localStorage.storageTodo = JSON.stringify(loc)
         setData(loc)
     }
@@ -50,9 +57,9 @@ const TaskBlock: React.FC<ObjectInterface> = ({id, task, due, stats}) => {
                     <FaHourglassHalf />
                     <p className='text-xs'>Doing</p>
                 </button>
-                <button className='rounded-full flex flex-row gap-1 hover:text-orange-500 duration-200'>
-                    <FaEdit />
-                    <p className='text-xs'>Edit</p>
+                <button onClick={() => archiveTask(id)} className='rounded-full flex flex-row gap-1 hover:text-orange-500 duration-200'>
+                    <FaArchive />
+                    <p className='text-xs'>Archive</p>
                 </button>
             </div>
         </div>
