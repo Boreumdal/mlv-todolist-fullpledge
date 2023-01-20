@@ -7,15 +7,34 @@ import { useAppContext } from '../context/TodoContext'
 import { ObjectInterface } from '../utilities/UtilityFunctions'
 
 const OptionField: React.FC = () => {
-    const { setData, data, setSortBy } = useAppContext()
+    const { setData, data, setSortBy, searchBy, setSearchBy } = useAppContext()
     const purgeLocalStorage = (): void => {
         localStorage.storageTodo = '[]'
         console.log('Purged');
         setData(JSON.parse(localStorage.storageTodo))
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSearchBy = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSearchBy(e.target.value)
+    }
+    const handleSortBy = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortBy(e.target.value)
+    }
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const arr = [...JSON.parse(localStorage.storageTodo)]
+        if (searchBy === 'bydue'){
+            if (e.target.value === ''){
+                setData([...JSON.parse(localStorage.storageTodo)])
+            } else {
+                const arr2 = arr.filter((data: ObjectInterface) => data.due === +e.target.value)
+                setData(arr2)
+            }
+        }
+        else {
+            const arr2 = arr.filter((data: ObjectInterface) => data.task.includes(e.target.value))
+            setData(arr2)
+        }
     }
 
     const todoItems: number = data.filter((task: ObjectInterface) => task.stats === 'todo').length
@@ -33,19 +52,23 @@ const OptionField: React.FC = () => {
                     </div>
                 </div>
                 <div className='px-2 pt-2'>
-                    <input type="text" placeholder='Search task...' className='border-b block w-full text-sm py-2 px-3 my-1 outline-none' />
+                    {
+                        searchBy === 'bytitle' ? <input type="text" onChange={handleSearchChange} placeholder='Search task...' className='border-b block w-full text-sm py-2 px-3 my-1 outline-none' />
+                        : <input type="number" onChange={handleSearchChange} placeholder='Search by due...' className='border-b block w-full text-sm py-2 px-3 my-1 outline-none' />
+                    }
+                    
                 </div>
                 <div className='flex flex-row text-sm gap-1 pt-3 pb-2 px-2 justify-between'>
                     <div className='w-1/2 flex flex-row items-center gap-1'>
                         <p className='font-medium'>Search by</p>
-                        <select name="sort" id="sort" className='border'>
-                            <option value="">Task title</option>
-                            <option value="">Date</option>
+                        <select onChange={handleSearchBy} name="sort" id="sort" className='border'>
+                            <option value="bytitle">Task title</option>
+                            <option value="bydue">Due date</option>
                         </select>
                     </div>
                     <div className='w-1/2 flex flex-row items-center gap-1'>
                         <p className='font-medium'>Sort by</p>
-                        <select onChange={handleChange} name="sort" id="sort" className='border'>
+                        <select onChange={handleSortBy} name="sort" id="sort" className='border'>
                             <option value="NaN" disabled>Default</option>
                             <option value="firstasc">First letter (asc)</option>
                             <option value="firstdsc">First letter (desc)</option>
@@ -61,9 +84,6 @@ const OptionField: React.FC = () => {
             <nav className='pt-3'>
                 <div className='bg-gray-50 p-2 flex flex-row justify-between items-center'>
                     <h1 className='text-lg font-bold'>Tabs</h1>
-                    <div className=''>
-                        <button className='bg-gray-800 text-white p-2 rounded-full text-xl'><MdOutlineDarkMode /></button>
-                    </div>
                 </div>
                 <ul className='flex flex-col gap-1 p-2'>
                     <NavLink to={'/'} className={({ isActive }) => (isActive ? 'border-l-4 border-blue-500' : '' ) + ' text-sm w-full hover:border-l-4 hover:border-blue-500 px-2 py-2 flex flex-row justify-between duration-300'}>
@@ -88,8 +108,6 @@ const OptionField: React.FC = () => {
                             <p>Done</p>
                         </div>
                         <p className='text-sm font-bold'>{doneItems}</p>
-                        
-                        
                     </NavLink>
                     
                 </ul>

@@ -10,8 +10,9 @@ import Archive from '../pages/Archive'
 import { ObjectInterface } from '../utilities/UtilityFunctions'
 
 const MainPage: React.FC = () => {
-    const { task, setTask, due, setDue, dark, setDark, data, setData, sortBy, setSortBy } = useAppContext()
+    const { task, setTask, due, setDue, dark, setDark, data, setData, sortBy, searchBy, setSortBy } = useAppContext()
     let [switcher, setSwitcher] = useState(true)
+    let [switcher2, setSwitcher2] = useState(true)
 
     useEffect(() => {
         if (!localStorage.storageTodo){
@@ -64,6 +65,33 @@ const MainPage: React.FC = () => {
             }
         }
     }, [sortBy])
+
+    useEffect(() => {
+        if (switcher2){
+            setSwitcher2(!switcher2)
+        } else {
+            switch(searchBy){
+                case 'bytitle':
+                    let arr1 = [...data]
+                    const firstasc = arr1.sort((a: ObjectInterface, b: ObjectInterface) => {
+                        if (a.task.toLowerCase() > b.task.toLowerCase()) {return 1}
+                        if (b.task.toLowerCase() > a.task.toLowerCase()) {return -1}
+                        return 0
+                    })
+                    return setData(firstasc)
+                case 'bydue':
+                    let arr2 = [...data]
+                    const firstdsc = arr2.sort((a: ObjectInterface, b: ObjectInterface) => {
+                        if (a.task.toLowerCase() > b.task.toLowerCase()) {return -1}
+                        if (b.task.toLowerCase() > a.task.toLowerCase()){ return 1}
+                        return 0
+                    })
+                    return setData(firstdsc)
+                default:
+                    return setData(data)
+            }
+        }
+    }, [searchBy])
 
   return (
     <div className='flex flex-row w-full gap-3 p-4 border h-screen'>

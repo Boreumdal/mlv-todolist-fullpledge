@@ -12,10 +12,11 @@ export const TodoContext = ({children}: TodoContextChildren) => {
     const [due, setDue] = useState<number>(1)
     const [dark, setDark] = useState<boolean>(false)
     const [sortBy, setSortBy] = useState<string>('firstasc')
+    const [searchBy, setSearchBy] = useState<string>('bytitle')
     const [data, setData] = useState<ObjectInterface[]>([])
 
     return (
-        <TodoAppContext.Provider value={{ task, setTask, due, setDue, dark, setDark,data, setData, sortBy, setSortBy }}>{children}</TodoAppContext.Provider>
+        <TodoAppContext.Provider value={{ task, setTask, due, setDue, dark, setDark,data, setData, sortBy, setSortBy, searchBy, setSearchBy }}>{children}</TodoAppContext.Provider>
     )
 }
 
