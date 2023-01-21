@@ -9,6 +9,6 @@ export interface ObjectInterface {
     stats?: string;
 }
 
-export const objToString = (obj: ObjectInterface[]) => {
-    return JSON.stringify(obj)
-}
+export const objToString = (obj: ObjectInterface[]) => JSON.stringify(obj)
+
+export const containerLen = (arr: ObjectInterface[], tag: string): number => arr.filter((task: ObjectInterface) => task.stats === tag).length

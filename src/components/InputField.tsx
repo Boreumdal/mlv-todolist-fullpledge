@@ -5,6 +5,7 @@ import { objToString, toObj } from '../utilities/UtilityFunctions'
 const InputField: React.FC = () => {
     const {setTask, due, task, setDue, setData} = useAppContext()
     const stats: string = 'todo'
+    const disable: boolean = task === ''
 
 
     const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +26,6 @@ const InputField: React.FC = () => {
         setTask('')
         setDue(1)
     }
-
-    const disable: boolean = task === ''
 
   return (
     <form className='py-1 px-2' onSubmit={handleSubmit}>

@@ -11,7 +11,3 @@ body {
     width: 100%;
     background-color: rgb(247, 247, 247);
 }
-
-.active {
-    background-color: red;
-}

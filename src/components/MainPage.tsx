@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { useAppContext } from '../context/TodoContext'
+import { ObjectInterface } from '../utilities/UtilityFunctions'
 import InputField from './InputField'
 import OptionField from './OptionField'
-import { Routes, Route } from 'react-router-dom'
 import Todo from '../pages/Todo'
 import Doing from '../pages/Doing'
 import Done from '../pages/Done'
-import { useAppContext } from '../context/TodoContext'
 import Archive from '../pages/Archive'
-import { ObjectInterface } from '../utilities/UtilityFunctions'
+
 
 const MainPage: React.FC = () => {
-    const { task, setTask, due, setDue, dark, setDark, data, setData, sortBy, searchBy, setSortBy } = useAppContext()
+    const { data, setData, sortBy } = useAppContext()
     let [switcher, setSwitcher] = useState(true)
-    let [switcher2, setSwitcher2] = useState(true)
 
     useEffect(() => {
         if (!localStorage.storageTodo){
@@ -27,71 +27,33 @@ const MainPage: React.FC = () => {
             setSwitcher(!switcher)
         }
         else {
+            let arr = [...data]
             switch(sortBy){
                 case 'firstasc':
-                    let arr1 = [...data]
-                    const firstasc = arr1.sort((a: ObjectInterface, b: ObjectInterface) => {
-                        if (a.task.toLowerCase() > b.task.toLowerCase()) {return 1}
-                        if (b.task.toLowerCase() > a.task.toLowerCase()) {return -1}
+                    return setData(arr.sort((a: ObjectInterface, b: ObjectInterface) => {
+                        if (a.task.toLowerCase() > b.task.toLowerCase()) { return 1 }
+                        if (b.task.toLowerCase() > a.task.toLowerCase()) { return -1 }
                         return 0
-                    })
-                    return setData(firstasc)
+                    }))
                 case 'firstdsc':
-                    let arr2 = [...data]
-                    const firstdsc = arr2.sort((a: ObjectInterface, b: ObjectInterface) => {
-                        if (a.task.toLowerCase() > b.task.toLowerCase()) {return -1}
-                        if (b.task.toLowerCase() > a.task.toLowerCase()){ return 1}
+                    return setData(arr.sort((a: ObjectInterface, b: ObjectInterface) => {
+                        if (a.task.toLowerCase() > b.task.toLowerCase()) { return -1 }
+                        if (b.task.toLowerCase() > a.task.toLowerCase()) { return 1 }
                         return 0
-                    })
-                    return setData(firstdsc)
+                    }))
                 case 'dayasc':
-                    let arr3 = [...data]
-                    const dayasc = arr3.sort((a: ObjectInterface, b: ObjectInterface) => a.due - b.due)
-                    return setData(dayasc);
+                    return setData(arr.sort((a: ObjectInterface, b: ObjectInterface) => a.due - b.due));
                 case 'daydsc':
-                    let arr4 = [...data]
-                    const daydsc = arr4.sort((a: ObjectInterface, b: ObjectInterface) => b.due - a.due)
-                    return setData(daydsc);
+                    return setData(arr.sort((a: ObjectInterface, b: ObjectInterface) => b.due - a.due));
                 case 'addasc':
-                    let arr5 = [...data]
-                    const addasc = arr5.sort((a: ObjectInterface, b: ObjectInterface) => a.id - b.id)
-                    return setData(addasc)
+                    return setData(arr.sort((a: ObjectInterface, b: ObjectInterface) => a.id - b.id))
                 case 'adddsc':
-                    let arr6 = [...data]
-                    const adddsc = arr6.sort((a: ObjectInterface, b: ObjectInterface) => b.id - a.id)
-                    return setData(adddsc)
+                    return setData(arr.sort((a: ObjectInterface, b: ObjectInterface) => b.id - a.id))
                 default:
                     return setData(data)
             }
         }
     }, [sortBy])
-
-    useEffect(() => {
-        if (switcher2){
-            setSwitcher2(!switcher2)
-        } else {
-            switch(searchBy){
-                case 'bytitle':
-                    let arr1 = [...data]
-                    const firstasc = arr1.sort((a: ObjectInterface, b: ObjectInterface) => {
-                        if (a.task.toLowerCase() > b.task.toLowerCase()) {return 1}
-                        if (b.task.toLowerCase() > a.task.toLowerCase()) {return -1}
-                        return 0
-                    })
-                    return setData(firstasc)
-                case 'bydue':
-                    let arr2 = [...data]
-                    const firstdsc = arr2.sort((a: ObjectInterface, b: ObjectInterface) => {
-                        if (a.task.toLowerCase() > b.task.toLowerCase()) {return -1}
-                        if (b.task.toLowerCase() > a.task.toLowerCase()){ return 1}
-                        return 0
-                    })
-                    return setData(firstdsc)
-                default:
-                    return setData(data)
-            }
-        }
-    }, [searchBy])
 
   return (
     <div className='flex flex-row w-full gap-3 p-4 border h-screen'>
