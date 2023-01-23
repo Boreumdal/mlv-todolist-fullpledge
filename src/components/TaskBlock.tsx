@@ -2,6 +2,7 @@ import React from 'react'
 import { ObjectInterface } from '../utilities/UtilityFunctions';
 import { FaArchive, FaTrash, FaCheck, FaHourglassHalf } from 'react-icons/fa'
 import { useAppContext } from '../context/TodoContext';
+import { optionFieldStyle } from '../utilities/UtilityStyles';
 
 const TaskBlock: React.FC<ObjectInterface> = ({id, task, due, stats}) => {
     const { setData } = useAppContext()
@@ -49,15 +50,15 @@ const TaskBlock: React.FC<ObjectInterface> = ({id, task, due, stats}) => {
                 <p className='text-xs text-gray-500 py-1'>{due} days</p>
             </div>
             <div className='flex flex-row gap-1 justify-between'>
-                <button onClick={() => moveToDone(id)} className='rounded-full flex flex-row gap-1 hover:text-green-500 duration-200'>
+                <button onClick={() => moveToDone(id)} className={optionFieldStyle.taskBlockButton + ' hover:text-green-500'}>
                     <FaCheck />
                     <p className='text-xs'>Done</p>
                 </button>
-                <button onClick={() => moveToDoing(id)} className='rounded-full flex flex-row gap-1 hover:text-yellow-500 duration-200'>
+                <button onClick={() => moveToDoing(id)} className={optionFieldStyle.taskBlockButton + ' hover:text-yellow-500'}>
                     <FaHourglassHalf />
                     <p className='text-xs'>Doing</p>
                 </button>
-                <button onClick={() => archiveTask(id)} className='rounded-full flex flex-row gap-1 hover:text-orange-500 duration-200'>
+                <button onClick={() => archiveTask(id)} className={optionFieldStyle.taskBlockButton + ' hover:text-orange-500'}>
                     <FaArchive />
                     <p className='text-xs'>Archive</p>
                 </button>

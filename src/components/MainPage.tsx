@@ -15,11 +15,10 @@ const MainPage: React.FC = () => {
     let [switcher, setSwitcher] = useState(true)
 
     useEffect(() => {
-        if (!localStorage.storageTodo){
-            localStorage.storageTodo = '[]'
-        } else {
-            setData(JSON.parse(localStorage.storageTodo))
-        }
+        if (localStorage.storageTodo){
+            return setData(JSON.parse(localStorage.storageTodo))
+        } 
+        localStorage.storageTodo = '[]'
     }, [])
 
     useEffect(() => {
