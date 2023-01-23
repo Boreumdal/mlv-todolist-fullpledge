@@ -21,15 +21,10 @@ const OptionField: React.FC = () => {
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const arr = [...JSON.parse(localStorage.storageTodo)]
-        if (searchBy !== 'bydue'){
-            return setData(arr.filter((data: ObjectInterface) => data.task.includes(e.target.value.toLowerCase())))
-        }
-        if (e.target.value !== ''){
-            return setData(arr.filter((data: ObjectInterface) => data.due === +e.target.value))
-        }
-        return setData(arr)
+        if (searchBy === 'bydue') return setData(arr.filter((data: ObjectInterface) => data.due === +e.target.value))
+        if (e.target.value === '') return setData(arr)
+        return setData(arr.filter((data: ObjectInterface) => data.task.includes(e.target.value.toLowerCase())))
     }
-
 
   return (
     <div className='flex flex-col justify-evenly items-between h-full'>
