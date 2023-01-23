@@ -20,22 +20,22 @@ A semi-finished todo app project using React and TypeScript
 ## Preview
 
 Main tab
-[main](rm/maintab.png)
+![main](rm/maintab.png)
 
 Ongoing Todo Tab
-[doing](rm/doingtab.png)
+![doing](rm/doingtab.png)
 
 Done tab
-[done](rm/donetab.png)
+![done](rm/donetab.png)
 
 Archive tab
-[archive](rm/archivetab.png)
+![archive](rm/archivetab.png)
 
 Search by due
-[doing](rm/searchbydue.png)
+![doing](rm/searchbydue.png)
 
 Search by title
-[doing](rm/searchbytitle.png)
+![doing](rm/searchbytitle.png)
 
 Sort system
-[sort](rm/sort.png)
+![sort](rm/sort.png)
